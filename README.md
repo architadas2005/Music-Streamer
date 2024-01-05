@@ -23,9 +23,9 @@ Project Objectives:
 Technology Stack:
 - Backend Framework: Flask (Python)
 - Database: SQLite3
-- Frontend: 
-       - HTML: Used for structuring the content and layout of web pages.
-       - Bootstrap: Used for designing the visual appearance of web pages.
-       - Jinja2: Used with flask to generate dynamic HTML content.
+- Frontend: <br>
+       - HTML: Used for structuring the content and layout of web pages. <br>
+       - Bootstrap: Used for designing the visual appearance of web pages. <br>
+       - Jinja2: Used with flask to generate dynamic HTML content. <br>
 - File Storage: Local file storage for audio files
 - Data Visualization: Matplotlib
