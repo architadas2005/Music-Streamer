@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>Playlist</title>
+</head>
+<body class="bg-white">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <img src="{{ url_for('static', filename='logo.png') }}" class="img" alt="logo" width="50" height="50">
+        <a class="navbar-brand" href="#">Music Streaming App</a>
+    </div>
+</nav>
+    
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="/redirect/user/{{p.s_no}}">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/">Log out</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+    <div class="container text-center">
+        <h2 class="m-4">{{p.playlist_name}}</h2>
+        <br>
+        {% for song in psongs %}
+        <div class="d-grid gap-2">
+                <button type="button" class="btn btn-primary"><a href="/song/{{song.song_id}}/user/{{p.s_no}}" class="text-dark">{{song.song_name}}</a></button>
+        </div><br>
+        {% endfor %}
+    </div>
+</body>
+<footer class="container">
+    <div class="position-static bottom my-5">
+        <div class="d-grid gap-2">
+          <button type="button" class="btn btn-warning"><a href="{{ url_for('modify_playlist', id=p.playlist_id) }}" class="text-dark">Modify Playlist</a></button>
+            <button type="button" class="btn btn-danger"><a href="/del/playlist/{{p.playlist_id}}" class="text-dark">Delete Playlist</a></button>
+        </div>
+    </div>
+</footer>
+</html>

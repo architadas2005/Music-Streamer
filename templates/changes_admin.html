@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change details</title>
+</head>
+<body class="bg-white">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <img src="{{ url_for('static', filename='logo.png') }}" class="img" alt="logo" width="50" height="50">
+            <a class="navbar-brand" href="#">Music Streaming App</a>
+        </div>
+    </nav>
+    <div class="container text-center mt-5">
+        <div class="col-lg-8 mx-auto">
+    <h4 class="text-success-emphasis mb-5 mt-3">{{Change}}</h4>
+    <div>
+        <form  action="/change_admin/{{types}}" method="POST">
+            <label class="text-success-emphasis" for="new_id">New User ID :</label>
+            <input type="text" required name="new_id"><br><br>
+            <label class="text-success-emphasis" for="new_pass">New Password :</label>
+            <input type="password" name="new_pass" required >
+            <div class="m-5 border border-black rounded-4" {{view}}><h4 class="text-warning-emphasis my-3" {{view}}> Old Details</h4>
+            <label class="text-success-emphasis" for="id" {{view}}>User ID :</label>
+            <input type="text" name="id" {{view}}>
+            <label class="text-success-emphasis ps-2" for="pass" {{view}}>Password :</label>
+            <input type="text" name="pass" {{view}}>
+            <p class="py-3 text-warning-emphasis" {{view}}>Enter any one or both</p></div>
+            <p class="text-danger text-decoration-underline mb-5">{{msg}}</p>
+            <input class="btn btn-outline-primary btn-light" type="submit" value="Submit">
+        </form>
+    </div></div></div>
+</body>
+</html>

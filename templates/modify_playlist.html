@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>Modify Playlist</title>
+</head>
+<body class="bg-light d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+    
+    <div class="container bg-white p-4 rounded shadow">
+        <h2 class="text-center mb-4">Modify Playlist</h2>
+
+        <form method="post" action="{{ url_for('modify_playlist', id=playlist.playlist_id) }}" class="mb-4">
+            <div class="mb-3">
+                <label for="p_name" class="form-label">Playlist Name:</label>
+                <input type="text" name="p_name" value="{{ playlist.playlist_name }}" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="song" class="form-label">Select Songs:</label>
+                <select name="song" class="form-select" multiple>
+                    {% for song in songs %}
+                        <option value="{{ song.song_id }}" {% if song in playlist.song %} selected {% endif %}>{{ song.song_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Modify Playlist</button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-eN6YrHR3LlVcFQ8ePxgvM2tE3p5QbUYlBAjqZHdpDz76gU+3h8xHp9WrZ7EJGf9c" crossorigin="anonymous"></script>
+</body>
+</html>

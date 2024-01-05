@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      .px-4{
+        white-space: pre-line;
+      }
+    </style>
+    <title>Song</title>
+</head>
+<body class="bg-dark-subtle">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <img src="{{ url_for('static', filename='logo.png') }}" class="img" alt="logo" width="50" height="50">
+        <a class="navbar-brand" href="#">Music Streaming App</a>
+    </div>
+</nav>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('redi',types=tpes,id=id)}}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/">Log out</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+  </nav>
+    <div class="container text-center mt-5">
+        <div class="row">
+            <div class="border rounded-start-5 border-3 border-black col-7">
+              <h3 class="my-4" style="color: rgb(23, 0, 193);">{{song.song_name}}</h3>
+              <img src="{{ url_for('static', filename='music.jpg') }}" class="ms-5" alt="song" height="220px" width="200px">
+                <audio class="m-5" controls autoplay preload="auto">
+                    <source src="{{ url_for('uploaded_file', filename=song.song_name+'.mp3')}}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+
+                <div class="container-fluid position-relative d-inline-block">
+                  {% if tpes=='creator' %}
+                  <div class="d-grid gap-2 m-5" role="group" aria-label="Basic mixed styles example">
+                    <a href="/del/song/{{song.song_id}}"><button type="button" class="btn btn-danger">Delete</button></a>
+                  </div>
+                  {% else %}
+                  <form {{cvis}} class="float-end m-5" action="/song/er/{{song.song_id}}/{{id}}" method="POST">
+                    <input name="flag" type="checkbox" class="btn-check" value="T" name="options-outlined" id="danger-outlined" autocomplete="off">
+                    <label class="btn btn-outline-danger" for="danger-outlined">Flag as inappropriate</label>
+                    <div class="input-group m-1">
+                    <select class="form-select" name="rating" id="inputGroupSelect04" aria-label="Example select with button addon">
+                      <option selected value="0">Rating...</option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>
+                      <option value="4">Four</option>
+                      <option value="5">Five</option>
+                    </select>
+                    <input class="btn btn-outline-secondary" type="submit"></div>
+                  </form>
+                  {% endif %}
+                </div>
+            </div>
+
+            <div class="col-5">
+              <h2>Lyrics</h2>
+              <div class="row">
+                <div style="height: 350px; overflow: scroll;">
+              {% if song.lyrics %}
+              <div class="px-4">{{song.lyrics}}</div>
+              {% else %}
+              <h4>Sorry! No lyrics available</h4>
+              {% endif %}
+              </div>
+              </div>
+              <hr class="border border-success border-2">
+              <div class="row d-block z-0">
+              {% if tpes=='creator' %}
+              <form action="/song/mod/{{song.song_id}}" method="POST">
+                <p class="form-floating ms-5 col-10">
+                  <textarea type="text" class="form-control" name="lyrics" id="floatingTextarea2" placeholder=""></textarea>
+                  <label class="text-success" for="floatingTextarea2"> Want to add some lyrics ?</label>
+              </p>
+              <input type="submit" value="Modify" class="btn btn-outline-primary btn-light">
+              </form>
+              {% endif %}
+              </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

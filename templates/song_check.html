@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>Check Song</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <img src="{{ url_for('static', filename='logo.png') }}" class="img" alt="logo" width="50" height="50">
+            <a class="navbar-brand" href="#">Music Streaming App</a>
+        </div>
+    </nav>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('admin')}}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Log out</a>
+                </li>
+            </ul>
+        </div>
+        </div>
+    </nav>
+
+
+    <div class="card m-5" style="max-width: 100%;">
+        <div class="row g-0">
+        <div class="col-md-4">
+            <img src="{{ url_for('static', filename='music.jpg') }}" class="img-fluid rounded-start" alt="song">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h3 class="card-title text-info">Song name : {{song.song_name}}</h3>
+                <h4>Creator's Registration Number : {{song.c_id}}</h4>
+                <p class="card-text py-2">
+                    <h4 class="text-success">Lyrics</h3>
+                    {% if song.lyrics %}
+                    <p>{{song.lyrics}}</p>
+                    {% else %}
+                    <h5>Sorry!!! No lyrics available</h4>
+                    {% endif %}
+                </p>
+                <audio class="m-5" controls preload="auto">
+                    <source src="{{ url_for('uploaded_file', filename=song.song_name+'.mp3')}}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <form action="{{url_for('s_update',sid=song.song_id,cid=song.c_id)}}"  class="border rounded-pill bg-secondary-subtle py-3 text-center" method="post">
+                    <div class="btn-group ms-5" role="group" aria-label="Basic radio toggle button group">
+                        <input type="radio" class="btn-check" name="update" id="btnradio1" required value="block">
+                        <label class="btn btn-outline-danger" for="btnradio1">Block Song</label>
+
+                        <input type="radio" class="btn-check" name="update" id="btnradio2" value="unflag">
+                        <label class="btn btn-outline-success" for="btnradio2">Unflag Song</label>
+                    </div>
+                    <br>
+                    <br>
+                    <button type="submit" class="btn btn-outline-primary ms-5 px-5">Confirm choice</button>
+                </form>
+            </div>
+        </div>
+        </div>
+    </div>
+    
+</body>
+</html>

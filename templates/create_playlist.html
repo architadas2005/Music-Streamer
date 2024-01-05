@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">    <title>Create Album</title>
+    <title>Create Playlist</title>
+</head>
+<body class="text-center bg-white mb-5">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <img src="{{ url_for('static', filename='logo.png') }}" class="img" alt="logo" width="50" height="50">
+            <a class="navbar-brand" href="#">Music Streaming App</a>
+        </div>
+    </nav>
+    <h1 class="my-3 text-bg-white"> Create your own Playlist</h1>
+    <form class="m-5" action="/create_playlist/{{u_id}}" method="post">
+        <div class="input-group flex-nowrap">
+            <span class="input-group-text" id="addon-wrapping">Playlist name :</span>
+            <input type="text" required name="p_name" class="form-control" placeholder="Playlist Name" aria-label="Username" aria-describedby="addon-wrapping">
+          </div>
+        <div class="d-grid gap-2 m-3 col-6 mx-auto">
+        {% for song in songs %}
+        <input type="checkbox" class="btn-check" name="song" value="{{song.song_id}}" id="btn-check-outlined {{loop.index}}" autocomplete="off">
+        <label class="btn btn-outline-primary" for="btn-check-outlined {{loop.index}}">{{song.song_name}}</label><br>
+        {% endfor %}
+        </div>
+        <input type="submit" value="Make Playlist" class="btn btn-light btn-outline-primary">
+    </form>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .horizontal-scroll {
+            display: flex;
+            overflow-x: auto; /* Enable horizontal scrolling */
+            white-space: nowrap; /* Prevent content from wrapping to the next line */
+        }
+        .horizontal-scroll > .col {
+            padding: 10px;
+            margin: 5px;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    
+</head>
+<body class="bg-white mb-5">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container">
+        <img src="{{ url_for('static', filename='logo.png') }}" class="img" alt="logo" width="50" height="50">
+          <a class="navbar-brand" href="#">Music Streaming App</a>
+      </div>
+  </nav>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link disabled" aria-current="page" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/">Log out</a>
+              </li>
+            </ul>
+            <form class="d-flex" action="/user/search/{{u}}" method="post" role="search">
+              <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+    </nav>
+    <h1 class="text-center my-5">WELCOME <span class="text-uppercase text-primary"> {{name}}</span></h1> 
+    {% if search %}
+      <div class="contaner text-center m-3 text-bg-light">
+        <div class="row">
+          <div class="col-6 border border-3 border-info">
+            <h2 class="text-center text-info">Searched Album :</h2>
+            {% if sa %}
+            <div class="horizontal-scroll">
+            {% for albm in sa %}
+            <div class="col">
+              <div class="card" style="width: 10rem; height: 350px;">
+                  <img src="{{ url_for('static', filename='album.jpg') }}" class="card-img-top" alt="song">
+                  <div class="card-body">
+                      <h5 class="card-title">{{albm.album_name}}</h5>
+                    <a href="/creator/album/{{albm.album_id}}" class="btn btn-primary stretched-link ms-4">View</a>
+                  </div>
+                </div>
+            </div>
+            {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-center text-danger">Sorry! <br> No Album with "{{search}}" name found</p>
+            {% endif %}
+          </div>
+          <div class="col-6 border border-3 border-info">
+            <h2 class="text-center text-info">Searched Song :</h2>
+            {% if ss %}
+            <div class="horizontal-scroll">
+            {% for song in ss %}
+            <div class="col">
+              <div class="card" style="width: 12rem; height: 250px;">
+                  <img src="{{ url_for('static', filename='music.jpg') }}" class="card-img-top" height="160px" alt="song">
+                  <div class="card-body">
+                      <h5 class="card-title">{{song.song_name}}</h5>
+                    <a href="/song/{{song.song_id}}/user/{{u}}" class="btn btn-primary stretched-link ms-4">Play</a>
+                  </div>
+                </div>
+            </div>
+            {% endfor %}
+            </div>
+            {% else%}
+            <p class="text-center text-danger">Sorry! <br> No Song with "{{search}}" name found</p>
+            {% endif%}
+          </div>
+        </div>
+        <div class="row">
+          {% if sr!=[] %}
+          <h2 class="text-center text-info">Songs with {{search}} rating :</h2>
+          {% for song in sr %}
+          <div class="d-grid gap-2">
+                <button type="button" class="btn btn-primary"><a href="/song/{{song.song_id}}/{{t}}/{{u}}" class="text-dark">{{song.song_name}}</a></button>
+          </div><br>
+          {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+
+    <div>
+        <p class="d-block h2">Your Playlist</p>
+            <div class="horizontal-scroll">
+                {% for playlist in pls %}
+                <div class="col">
+                    <div class="card" style="width: 12rem; height: 250px;">
+                        <img src="{{ url_for('static', filename='playlist.jpg') }}" class="card-img-top" alt="song">
+                        <div class="card-body">
+                            <h5 class="card-title text-success">{{playlist.playlist_name}}</h5>
+                        <a href="/user/playlist/{{playlist.playlist_id}}" class="btn btn-primary stretched-link ms-4">View</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="col position-relative">
+                    <form action="/create_playlist/{{u}}">
+                    <input type="submit" class="btn btn-outline-info rounded-pill position-absolute bottom-50" value="➕">
+                    </form>
+                </div>
+            </div>
+          </div>
+        <hr class="border border-5 border-dark">
+        <p class="d-inline-block h2">Songs</p>
+        <p class="d-inline-block float-end"><a href="/song/user/{{u}}">View more</a></p>
+        <div class="horizontal-scroll">
+            {% for song in songs %}
+            <div class="col">
+                <div class="card" style="width: 12rem; height: 250px;">
+                    <img src="{{ url_for('static', filename='music.jpg') }}" class="card-img-top" height="160px" alt="song">
+                    <div class="card-body">
+                        <h5 class="card-title text-danger text-center">{{song.song_name}}</h5>
+                      <a href="/song/{{song.song_id}}/user/{{u}}" class="btn btn-primary stretched-link ms-4">Play</a>
+                    </div>
+                  </div>
+            </div>
+            {% endfor %}
+        </div>
+        <hr class="border border-5 border-dark">
+        <p class="d-inline-block h2">Albums</p>
+        <p class="d-inline-block float-end"><a href="/album/user/{{u}}">View more</a></p>
+        <div class="horizontal-scroll">
+            {% for albm in albums %}
+            <div class="col">
+                <div class="card" style="width: 10rem; height: 260px;">
+                    <img src="{{ url_for('static', filename='album.jpg') }}" class="card-img-top" alt="song">
+                    <div class="card-body">
+                        <h5 class="card-title">{{albm.album_name}}</h5>
+                      <a href="/user/album/{{albm.album_id}}" class="btn btn-primary stretched-link ms-4">View</a>
+                    </div>
+                  </div>
+            </div>
+            {% endfor %}
+        </div>
+</body>
+</html>

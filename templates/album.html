@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Album</title>
+</head>
+<body class="bg-white">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <img src="{{ url_for('static', filename='logo.png') }}" class="img" alt="logo" width="50" height="50">
+        <a class="navbar-brand" href="#">Music Streaming App</a>
+    </div>
+</nav>
+    
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="/redirect/{{t}}/{{name.c_no}}">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/">Log out</a>
+              </li>
+            </ul>
+            <form action="/{{t}}/album/{{name.album_id}}" method="post" class="d-flex" role="search">
+              <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" name="search" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+    </nav>
+    <div class ="bg-white">
+    <div class="container text-center">
+        <h2 class="m-4">{{name.album_name}}</h2>
+        <br>
+        {% if search %}
+        <p class="h2">Name :</p>
+            {% if sn %}
+            <div class="d-grid gap-2">
+                <button type="button" class="btn btn-primary"><a href="/song/{{sn.song_id}}/{{t}}/{{name.c_no}}" class="text-dark">{{sn.song_name}}</a></button>
+            </div>
+            {% else %}
+            <p class="text-danger">No Song with {{search}} name exists.</p>
+            {% endif %}
+            <p class="h2">Rating :</p>
+            {% if sr !=[] %}
+                {% for song in sr %}
+                <div class="d-grid gap-2">
+                    <button type="button" class="btn btn-primary"><a href="/song/{{song.song_id}}/{{t}}/{{name.c_no}}" class="text-dark">{{song.song_name}}</a></button>
+                </div>
+                {% endfor %}
+            {% else %}
+            <p class="text-danger">No song with searched rating found. </p>
+            {% endif %}
+        {% else %}
+        {% for song in asongs %}
+        <div class="d-grid gap-2">
+                <button type="button" class="btn btn-primary"><a href="/song/{{song.song_id}}/{{t}}/{{name.c_no}}" class="text-dark">{{song.song_name}}</a></button>
+        </div><br>
+        {% endfor %}
+    {% endif %}
+    </div></div>
+</body>
+<footer {{vis}} class="container">
+    <div class="position-static bottom my-5">
+        <div class="d-grid gap-2">
+            <button type="button" class="btn btn-danger"><a href="/del/album/{{name.album_id}}" class="text-dark">Delete Album</a></button>
+        </div>
+    </div>
+</footer>
+</html>
